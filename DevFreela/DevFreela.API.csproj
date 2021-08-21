@@ -10,7 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\DevFreela.Application\DevFreela.Application.csproj" />
+    <ProjectReference Include="..\DevFreela.Domain\DevFreela.Domain.csproj" />
+    <ProjectReference Include="..\DevFreela.Infra\DevFreela.Infra.csproj" />
   </ItemGroup>
 
 </Project>
