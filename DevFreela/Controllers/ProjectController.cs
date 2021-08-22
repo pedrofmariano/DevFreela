@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers
 {
-    public class ProjectController : ControllerBase
+    [Route("api/projects")]
+    public class ProjectsController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        public ProjectController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService)
         {
-            _projectService = projectService; 
+            _projectService = projectService;
         }
 
+        // api/projects?query=net core
         [HttpGet]
         public IActionResult Get(string query)
         {
@@ -20,12 +22,13 @@ namespace DevFreela.API.Controllers
             return Ok(projects);
         }
 
+        // api/projects/2
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var project = _projectService.GetById(id);
 
-            if(project == null)
+            if (project == null)
             {
                 return NotFound();
             }
@@ -46,16 +49,54 @@ namespace DevFreela.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = id }, inputModel);
         }
 
+        // api/projects/2
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateProjectInputModel inputModel)
         {
-            if(inputModel.Description.Length > 200)
+            if (inputModel.Description.Length > 200)
             {
                 return BadRequest();
             }
+
             _projectService.Update(inputModel);
 
             return NoContent();
         }
-    }  
+
+        // api/projects/3 DELETE
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _projectService.Delete(id);
+
+            return NoContent();
+        }
+
+        // api/projects/1/comments POST
+        [HttpPost("{id}/comments")]
+        public IActionResult PostComment(int id, [FromBody] CreateCommentInputModel inputModel)
+        {
+            _projectService.CreateComment(inputModel);
+
+            return NoContent();
+        }
+
+        // api/projects/1/start
+        [HttpPut("{id}/start")]
+        public IActionResult Start(int id)
+        {
+            _projectService.Start(id);
+
+            return NoContent();
+        }
+
+        // api/projects/1/finish
+        [HttpPut("{id}/finish")]
+        public IActionResult Finish(int id)
+        {
+            _projectService.Finish(id);
+
+            return NoContent();
+        }
+    }
 }

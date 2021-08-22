@@ -15,7 +15,9 @@ namespace DevFreela.Domain.Entities
 
         public string Content { get; private set; }
         public int IdProject { get; private set; }
+        public Project Project { get; set; }
         public int IdUser { get; private set; }
+        public User User { get; set; }
         public DateTime CreatedAt { get; private set; }
     }
 }
